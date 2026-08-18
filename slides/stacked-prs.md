@@ -123,16 +123,21 @@ every rebase by hand.
 # 1 · The problem
 ## The false dilemma
 
+Two ways to ship the feature, and neither are great:
+
 ```
-      mega-PR                       small PRs
-   unreviewable                blocked / rebase hell
-       ✗                              ✗
-        └──────────────┬──────────────┘
-                       ▼
-            the tooling forced the choice
+       Option A                      Option B
+       the mega-PR                   smaller PRs
+           │                             │
+           ▼                             ▼
+      hard to review,               lots of idle time,
+      bugs slip through             or manual rebasing
+           │                             │
+           ▼                             ▼
+           ✗                             ✗
 ```
 
-Nobody was lazy.
+Bad tooling is forcing this choice.
 
 ---
 
