@@ -159,7 +159,8 @@ Take the good from each, leave the bad:
 # 2 · A better way
 ## What a stack is
 
-One big branch → a chain of small branches, each based on the one below:
+Two or more PRs: the bottom targets `main`, and each one above targets the
+PR below it.
 
 ```
    feat/ui          ●  PR #4  → base: feat/controller
@@ -173,29 +174,20 @@ One big branch → a chain of small branches, each based on the one below:
    main             ┴
 ```
 
-Each PR is small. Each targets the one below. Together they're the feature.
+Each PR is a small, reviewable change. Anything an upper layer needs lives
+in a lower one.
 
 ---
 
 # 2 · A better way
-## The same feature, stacked
+## What gh-stack gives us
 
-| # | Layer | Targets | Size |
-|---|-------|---------|------|
-| 1 | **api**: `BackupSchedule` type | `main` | small |
-| 2 | **webhook**: validate schedule | api | small |
-| 3 | **controller**: reconcile CronJob | webhook | small |
-| 4 | **ui**: console form | controller | small |
+- CLI to build & manage stacks: create layers, reorder, navigate
+- Rebasing & syncing handled: change a lower layer, it restacks the rest
+- A stack map in the GitHub UI: every PR linked to the others
+- Cascading merges: land the whole stack, or just the bottom part
 
-```
-   api         ■■
-   webhook     ■■■
-   controller  ■■■
-   ui          ■■
-   mega-PR     ■■■■■■■■■■   same code, one giant diff
-```
-
-Four focused reviews instead of one 20k-line slog.
+The manual work from Option B, gone.
 
 ---
 
