@@ -56,19 +56,19 @@ Two options, neither are ideal.
 # 1 · The problem
 ## Option A: the mega-PR
 
-Everything in one PR:
+Everything crammed into one PR:
 
 ```
-  PR #1  "add scheduled backups"
-  ──────────────────────────────────────────
-   api  +  webhook  +  controller  +  ui
-   +20,000   -0     across 73 files
-  ──────────────────────────────────────────
-              one giant review
+   ┌───────┬─────────┬────────────┬──────┐
+   │  api  │ webhook │ controller │  ui  │
+   └───────┴─────────┴────────────┴──────┘
+                     ▼
+          +20,000 lines, one giant PR to review
 ```
 
-- Gated behind **one enormous review**; nothing lands until it's all cleared
-- The branch **rots** against `main`; conflicts accrue
+- **One giant diff**: difficult to give it a careful review
+- **All-or-nothing**: nothing lands until the whole PR is approved
+- **The branch rots**: while it waits for review, `main` moves on and conflicts build up
 
 ---
 
