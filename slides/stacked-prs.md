@@ -358,17 +358,18 @@ A few of us are already stacking, and it works.
 
 ---
 
-# Thanks
+# Thank you
+## Any questions?
 
 ```
-     ┌──────────────┐  small
-     ├──────────────┤  reviewable
-     ├──────────────┤  unblocked
-     ├──────────────┤  continuous
-     └──────┬───────┘
-           main
+          ▄▄██████▄▄
+        ▄██▀      ▀██▄
+                    ██
+                  ▄██▀
+                ▄██▀
+              ▄██▀
+              ██
+              ██
+
+              ██
 ```
-
-`gh extension install github/gh-stack`
-
-Questions?
