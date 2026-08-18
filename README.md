@@ -12,9 +12,10 @@ slides slides/stacked-prs.md
 
 ## Demo
 
-The `demo/` directory is a throwaway Kubernetes-operator scaffold (never
-compiles) used to build a real 3-layer stack live. See
-[`demo/README.md`](demo/README.md) for the runbook.
+The `demo/` directory is a small but real Kubernetes operator (a
+`BackupSchedule` controller) used to build a real 3-layer stack live. It
+builds with `go build ./...`. See [`demo/README.md`](demo/README.md) for the
+runbook.
 
 ## Requirements
 

@@ -4,11 +4,14 @@ Builds `api → webhook → controller` as a real stack of PRs on
 `ahmad-ibra/gh-stack-demo`, shows the stack map, does a cascading merge,
 and (optionally) resolves an engineered conflict.
 
+The `demo/` module is a real Kubernetes operator (a `BackupSchedule`
+controller). `go build ./...` passes, so every layer is a believable diff.
+
 ## Pre-flight (before the talk)
 - `gh auth status` → logged in, `repo` + `workflow` scopes
 - `gh extension list` → `github/gh-stack` present; `gh stack alias` run (so `gs` works)
 - `git switch main && git pull` — clean tree
-- No leftover demo branches: `git branch --list 'feature/backup-*'` is empty
+- No leftover demo branches: `git branch --list 'feat/*'` is empty
   (clean up with `gh stack unstack` + `git branch -D`, and delete remote branches/PRs)
 
 ## Core demo (~5–7 min)
@@ -17,24 +20,24 @@ and (optionally) resolves an engineered conflict.
 # 0. start on a clean main
 git switch main && git pull
 
-# 1. start the stack
-gs init
+# 1. Layer 1 — API
+gs init feat/api
+#    edit demo/api/v1/backupschedule_types.go: add a TimeZone field to BackupScheduleSpec
+git add . && git commit -m "api: add TimeZone to BackupSchedule"
 
-# 2. Layer 1 — API
-#    edit demo/api/v1/backupschedule_types.go (add a field under the TODO)
-gs add -Am "api: add retention to BackupSchedule" feature/backup-api
+# 2. Layer 2 — webhook
+gs add feat/webhook
+#    edit demo/internal/webhook/backupschedule_webhook.go: validate the TimeZone
+#    edit demo/internal/features/registry.go: append a Feature to `registered`  (sets up the conflict)
+git add . && git commit -m "webhook: validate TimeZone"
 
-# 3. Layer 2 — webhook  (also append to the shared registry -> sets up the conflict)
-#    edit demo/internal/webhook/backupschedule_webhook.go (fill in a check)
-#    edit demo/internal/features/registry.go: add "backup-webhook" to registeredFeatures
-gs add -Am "webhook: validate cron schedule" feature/backup-webhook
+# 3. Layer 3 — controller
+gs add feat/controller
+#    edit demo/internal/controller/backupschedule_controller.go: set CronJob.Spec.TimeZone
+#    edit demo/internal/features/registry.go: append a Feature to `registered`  (the conflict)
+git add . && git commit -m "controller: set CronJob time zone"
 
-# 4. Layer 3 — controller  (also append to the shared registry -> the conflict)
-#    edit demo/internal/controller/backupschedule_controller.go (fill in reconcile)
-#    edit demo/internal/features/registry.go: add "backup-controller" to registeredFeatures
-gs add -Am "controller: reconcile backup CronJob" feature/backup-controller
-
-# 5. ship it
+# 4. ship it
 gs submit
 gs view
 ```
@@ -42,18 +45,18 @@ gs view
 Then in the browser: open the bottom PR, **show the stack map**, walk up the layers.
 
 ```bash
-# 6. cascading merge: merge the bottom PR (UI or CLI), then restack locally
+# 5. cascading merge: merge the bottom PR (UI or CLI), then restack locally
 gs merge          # or click Merge on PR #1 in the UI
 gs sync           # pulls the cascade; upper layers rebase onto main
 ```
 
 ## Optional: conflict beat (~2 min, only if time)
-Because layers 2 and 3 both appended to `registeredFeatures`, a `gs sync` /
-`gs rebase` after editing the base will stop on a conflict in
-`demo/internal/features/registry.go`. Resolve it live:
+Layers 2 and 3 both appended to the `registered` slice in
+`demo/internal/features/registry.go`, so a `gs sync` / `gs rebase` after the
+base changes stops on a conflict there. Resolve it live (keep both features):
 
 ```bash
-# git shows the conflict in registry.go — keep both feature keys
+# git shows the conflict in registry.go — keep both Feature entries
 gs rebase --continue   # (or: git add + git rebase --continue, then gs sync)
 ```
 
@@ -65,7 +68,7 @@ Switch to the browser and walk that stack + stack map instead of building live.
 ```bash
 gs unstack                      # remove local stack tracking
 git switch main
-git branch -D feature/backup-api feature/backup-webhook feature/backup-controller
+git branch -D feat/api feat/webhook feat/controller
 # close/delete the demo PRs + remote branches on github.com (or `gh stack unstack` handles remote)
 git switch main && git pull
 ```
