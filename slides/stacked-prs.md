@@ -182,7 +182,7 @@ Each PR is small. Each targets the one below. Together they're the feature.
    webhook     ■■■
    controller  ■■■
    ui          ■■
-   mega-PR     ■■■■■■■■■■■■■■■■■■■■■■■■   +20,000
+   mega-PR     ■■■■■■■■■■   same code, one giant diff
 ```
 
 Four focused reviews instead of one 20k-line slog.
