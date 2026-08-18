@@ -247,7 +247,7 @@ layer, `gs sync` rebases the whole stack on top for you, no manual rebasing.
 ```
   merge the bottom PR...        ...the rest auto-rebase:
 
-    ui         ●                  ui         ●
+    ui         ●                  ui         ●  rebased
     controller ●                  controller ●  rebased
     webhook    ●         ─▶       webhook    ●  rebased
     api        ● ▸ main           api    ✔ merged
@@ -256,8 +256,9 @@ layer, `gs sync` rebases the whole stack on top for you, no manual rebasing.
 
 ```bash
 gs merge      # or click Merge on a PR in the UI
-gs sync       # pull the cascade down locally
 ```
+
+Merge any layer and everything below it lands; the rest rebase onto `main` automatically.
 
 ---
 
