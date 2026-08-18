@@ -195,17 +195,6 @@ The manual work from Option B, gone.
 ---
 
 # 3 · gh stack
-## The workflow
-
-```
-   local branches  ─▶  gh stack  ─▶  a stack of PRs on GitHub
-```
-
-Install once, then a handful of commands do the rest.
-
----
-
-# 3 · gh stack
 ## Install
 
 ```bash
@@ -214,21 +203,6 @@ gh stack alias          # optional: adds `gs`
 ```
 
 Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitHub.
-
----
-
-# 3 · gh stack
-## The five beats
-
-```
-  ┌────────┐  ┌──────┐  ┌────────┐  ┌────────┐  ┌───────┐
-  │ create │─▶│ push │─▶│ submit │─▶│ review │─▶│ merge │
-  └────────┘  └──────┘  └────────┘  └────────┘  └───────┘
-   gs init     gs push   gs submit   (on GH)     gs merge
-   gs add
-```
-
-Build layers locally, push, open the PRs, get focused reviews, land them.
 
 ---
 
