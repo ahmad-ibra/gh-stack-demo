@@ -23,13 +23,13 @@ _Under the Hood · Ahmad Ibrahim · August 19th, 2026_
 # Agenda
 
 ```
-  1 · problem        a day in the life
+  1 · problem        a typical dev's workflow
   2 · mental model   what "stacking" is
-  3 · why it helps   review · flow · throughput · safety
-  4 · gh-stack       how it works
-  5 · live demo      🔴
-  6 · reality        gotchas & reporting
-  7 · landscape      how to start
+  3 · why it helps   focused reviews · unblocking development
+  4 · gh-stack       command overview
+  5 · live demo      stacking changes on each other
+  6 · reality        gotchas & CI cost
+  7 · landscape      alternatives & why gh-stack
 ```
 
 ---
