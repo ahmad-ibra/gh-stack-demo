@@ -185,10 +185,10 @@ in a lower one.
 `gh stack` is a subcommand of the GitHub CLI (added by the `gh-stack`
 extension) that builds and manages stacks for you:
 
-- Create & manage stacks: add layers, reorder, navigate
-- Rebasing & syncing handled: change a lower layer, it restacks the rest
-- A stack map in the GitHub UI: every PR linked to the others
-- Cascading merges: land the whole stack, or just the bottom part
+- **Create & manage stacks**: add layers, reorder, navigate
+- **Rebasing & syncing handled**: change a lower layer, it restacks the rest
+- **A stack map in the GitHub UI**: every PR linked to the others
+- **Cascading merges**: land the whole stack, or just the bottom part
 
 The manual work from Option B, gone.
 
@@ -311,8 +311,8 @@ Atomic: the chosen PR and everything below land together.
   now multiply across every AI-authored PR, too ...
 ```
 
-- Mitigate: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
-- **Bigger picture:** CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
+- **Mitigate**: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
+- **Bigger picture**: CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
 
 ---
 
