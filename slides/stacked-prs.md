@@ -114,26 +114,9 @@ below, so they land one at a time:
   time
 ```
 
-Alice's idle time continues to stack as each change is reviewed.
-
----
-
-# 1 · The problem
-## Option B's trap
-
-```
-                 split into layers
-                        │
-            ┌───────────┴───────────┐
-            ▼                       ▼
-       WAIT for PR1            STACK by hand
-       to merge first         off unmerged PR1
-            │                       │
-       idle · blocked          rebase every layer
-                               on each review churn
-            ▼                       ▼
-         (stuck)                (rebase hell)
-```
+Alice's idle time continues to stack as each change is reviewed. To keep
+moving she could branch off her own unmerged branches, but then she owns
+every rebase by hand.
 
 ---
 
