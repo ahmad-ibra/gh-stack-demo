@@ -349,10 +349,10 @@ A proven workflow. gh stack brings it natively to GitHub.
 # 7 · The stacked diff ecosystem
 ## Why gh stack for us
 
-- **Native GitHub**: no third-party app, no extra permissions
-- The **stack map** is built into the PR UI
-- **CLI is optional**: works alongside the normal PR flow
-- Zero new SaaS in the review path
+- **Nothing to buy or approve**: part of GitHub, and we already have preview access (Graphite and Aviator are paid apps that need repo access)
+- **Fits our existing workflow**: same branch protection, CI, reviews, and merges, no migration
+- **Reviewers need nothing**: they see the stack in the normal PR UI. Only authors install the CLI.
+- **Low bar to adopt**: one `gh extension install`, per developer, no org-wide rollout
 
 A few of us are already stacking, and it works.
 
