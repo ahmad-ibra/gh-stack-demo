@@ -24,18 +24,19 @@ _Ahmad Ibrahim · Engineering_
 # Agenda
 
 ```
-  1 ─ problem        a day in the life
-  2 ─ mental model   what "stacking" is
-  3 ─ why it helps   review · flow · throughput · safety
-  4 ─ gh-stack       how it works
-  5 ─ live demo      🔴
-  6 ─ reality        gotchas & reporting
-  7 ─ landscape      how to start
+  1 · problem        a day in the life
+  2 · mental model   what "stacking" is
+  3 · why it helps   review · flow · throughput · safety
+  4 · gh-stack       how it works
+  5 · live demo      🔴
+  6 · reality        gotchas & reporting
+  7 · landscape      how to start
 ```
 
 ---
 
-# Meet the cast
+# 1 · The problem
+## Meet the cast
 
 ```
   Alice builds:  scheduled cluster backups
@@ -52,7 +53,8 @@ Two options. Both are bad.
 
 ---
 
-# Option A: the mega-PR
+# 1 · The problem
+## Option A: the mega-PR
 
 Everything in one PR:
 
@@ -70,7 +72,8 @@ Everything in one PR:
 
 ---
 
-# Bob vs the mega-PR
+# 1 · The problem
+## Bob vs the mega-PR
 
 ```
   reviewing +20,000 lines...
@@ -85,7 +88,8 @@ Everything in one PR:
 
 ---
 
-# Option B: smaller PRs
+# 1 · The problem
+## Option B: smaller PRs
 
 The *right* instinct: split it up.
 
@@ -103,7 +107,8 @@ But plain PRs all target `main`:
 
 ---
 
-# Option B's trap
+# 1 · The problem
+## Option B's trap
 
 ```
                  split into layers
@@ -121,7 +126,8 @@ But plain PRs all target `main`:
 
 ---
 
-# The false dilemma
+# 1 · The problem
+## The false dilemma
 
 ```
       mega-PR                       small PRs
@@ -136,7 +142,8 @@ Nobody was lazy.
 
 ---
 
-# What if you didn't have to choose?
+# 2 · The mental model
+## What if you didn't have to choose?
 
 ```
    Option B's small PRs   +   no blocking
@@ -148,7 +155,8 @@ The PR stops being the unit of work. The **layer** is.
 
 ---
 
-# The mental model
+# 2 · The mental model
+## What a stack is
 
 One big branch → a chain of small branches, each based on the one below:
 
@@ -168,7 +176,8 @@ Each PR is small. Each targets the one below. Together they're the feature.
 
 ---
 
-# The same feature, stacked
+# 2 · The mental model
+## The same feature, stacked
 
 | # | Layer | Targets | Size |
 |---|-------|---------|------|
@@ -189,7 +198,8 @@ Four focused reviews instead of one 20k-line slog.
 
 ---
 
-# Smaller diffs = better review
+# 3 · Why it helps
+## Smaller diffs = better review
 
 ```
    200-line PR   ██████████   attention spent: high   ✔
@@ -201,7 +211,8 @@ Four focused reviews instead of one 20k-line slog.
 
 ---
 
-# Unblock yourself
+# 3 · Why it helps
+## Unblock yourself
 
 ```
   sequential (no stacking):
@@ -218,7 +229,8 @@ Four focused reviews instead of one 20k-line slog.
 
 ---
 
-# Throughput
+# 3 · Why it helps
+## Throughput
 
 ```
   one big batch:
@@ -232,7 +244,8 @@ Shorter review latency per PR → shorter cycle time. Flow, not heroics.
 
 ---
 
-# Continuous & agile
+# 3 · Why it helps
+## Continuous & agile
 
 ```
   a bug lands on main:
@@ -245,7 +258,8 @@ Small changes land **frequently**. Small blast radius = trivial to isolate.
 
 ---
 
-# Alice's week, restacked
+# 3 · Why it helps
+## Alice's week, restacked
 
 ```
   before :  1 × 20k PR    ▶  slow · shallow · blocked
@@ -261,7 +275,8 @@ Same people. The **tooling** changed the outcome.
 
 ---
 
-# OK, how do I actually do this?
+# 4 · gh-stack
+## How do I actually do this?
 
 Meet **`gh-stack`**, GitHub's native stacked-PR extension.
 
@@ -273,7 +288,8 @@ Meet **`gh-stack`**, GitHub's native stacked-PR extension.
 
 ---
 
-# Install
+# 4 · gh-stack
+## Install
 
 ```bash
 gh extension install github/gh-stack
@@ -284,7 +300,8 @@ Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitH
 
 ---
 
-# The five beats
+# 4 · gh-stack
+## The five beats
 
 ```
   ┌────────┐  ┌──────┐  ┌────────┐  ┌────────┐  ┌───────┐
@@ -298,7 +315,8 @@ Build layers locally, push, open the PRs, get focused reviews, land them.
 
 ---
 
-# Build the stack
+# 4 · gh-stack
+## Build the stack
 
 ```bash
 gh stack init                       # start a stack on main
@@ -312,7 +330,8 @@ gh stack add -Am "webhook: validate schedule" feature/backup-webhook
 
 ---
 
-# Ship the stack
+# 4 · gh-stack
+## Ship the stack
 
 ```bash
 gh stack submit     # push all branches + open/update every PR
@@ -323,7 +342,8 @@ gh stack view       # see the stack locally
 
 ---
 
-# The stack map
+# 4 · gh-stack
+## The stack map
 
 What Bob sees on github.com. Navigate the layers:
 
@@ -344,7 +364,8 @@ What Bob sees on github.com. Navigate the layers:
 
 ---
 
-# Cascading merge
+# 4 · gh-stack
+## Cascading merge
 
 ```
   merge the bottom PR...        ...the rest auto-rebase:
@@ -363,7 +384,8 @@ gh stack sync       # pull the cascade down locally
 
 ---
 
-# git → gs cheat sheet
+# 4 · gh-stack
+## git → gs cheat sheet
 
 | Goal | Manual git/gh | gh-stack |
 |------|---------------|----------|
@@ -377,7 +399,8 @@ gh stack sync       # pull the cascade down locally
 
 ---
 
-# Let's see it live 🔴
+# 5 · Live demo
+## Let's see it live 🔴
 
 ```
     ╔══════════════════════════════════╗
@@ -390,7 +413,8 @@ A real 3-layer stack.
 
 ---
 
-# Review UX & CI
+# 6 · Reality
+## Review UX & CI
 
 ```
   each PR is tested as if it targets main:
@@ -403,7 +427,8 @@ Branch protection is enforced on the **final target branch**, not the intermedia
 
 ---
 
-# Gotchas
+# 6 · Reality
+## Gotchas
 
 - Keep the stack **in sync**: `gs sync` after merges / review churn
 - **Don't stack everything**: a tiny one-shot change is just a PR
@@ -411,7 +436,8 @@ Branch protection is enforced on the **final target branch**, not the intermedia
 
 ---
 
-# Stacks multiply CI load
+# 6 · Reality
+## Stacks multiply CI load
 
 ```
   1 mega-PR       ▶  CI runs ×1
@@ -425,7 +451,8 @@ Branch protection is enforced on the **final target branch**, not the intermedia
 
 ---
 
-# It's public preview, tell them
+# 6 · Reality
+## It's public preview, tell them
 
 We're early adopters. Our feedback shapes the tool.
 
@@ -436,7 +463,8 @@ We're early adopters. Our feedback shapes the tool.
 
 ---
 
-# You're not the first
+# 7 · Landscape
+## You're not the first
 
 The stacking landscape:
 
@@ -449,7 +477,8 @@ Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 
 ---
 
-# Why gh-stack for us
+# 7 · Landscape
+## Why gh-stack for us
 
 - **Native GitHub**: no third-party app, no extra permissions
 - The **stack map** is built into the PR UI
