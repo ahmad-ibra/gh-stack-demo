@@ -300,20 +300,6 @@ Atomic: the chosen PR and everything below land together.
 ---
 
 # 6 · Reality
-## Review UX & CI
-
-```
-  each PR is tested as if it targets main:
-    PR #3 controller   ▶  CI ✔
-    PR #2 webhook      ▶  CI ✔
-    PR #1 api          ▶  CI ✔
-```
-
-Branch protection is enforced on the **final target branch**, not the intermediate layer branches.
-
----
-
-# 6 · Reality
 ## Gotchas
 
 - Keep the stack **in sync**: `gs sync` after merges / review churn

@@ -8,7 +8,7 @@ Presentation + live demo introducing **GitHub Stacked PRs** (`gh-stack`) to engi
 slides slides/stacked-prs.md
 ```
 
-~30 min, 24 slides. The live demo runs after the "Let's see it live" slide.
+~30 min, 23 slides. The live demo runs after the "Let's see it live" slide.
 
 ## Demo
 
