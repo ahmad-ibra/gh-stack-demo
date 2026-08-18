@@ -456,17 +456,6 @@ Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 - **CLI is optional**: works alongside the normal PR flow
 - Zero new SaaS in the review path
 
----
-
-# Try it Monday
-
-```
-   [ ] pick one medium feature
-   [ ] split into 2-3 layers
-   [ ] gs init  ▶  gs add  ▶  gs submit
-   [ ] read gh.io/stacks
-```
-
 A few of us are already stacking, and it works.
 
 ---
