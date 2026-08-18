@@ -73,18 +73,25 @@ Everything crammed into one PR:
 ---
 
 # 1 · The problem
-## Bob vs the mega-PR
+## Option A: the mega-PR
+
+Bob gets the review notification and opens a **+20,000-line** PR.
 
 ```
-  reviewing +20,000 lines...
-  file  1/73   ██████████████   real focus
-  file 20/73   ████████         skimming
-  file 45/73   ████             "looks fine"
-  file 73/73   █                LGTM  ▶  bugs slip
+  defects caught in review, by lines changed
+   1-100     ████████████████████  87%
+   101-300   ██████████████████    78%
+   301-600   ███████████████       65%
+   601-1000  ██████████            42%
+   1000+     ███████               28%   ◀ a mega-PR lands here
 ```
 
-- A real review costs **hours**; the giant diff pushes toward **LGTM**
-- Alice got **no early feedback**: the design was locked in 20k lines ago
+By end of day, Bob does one of two things:
+
+- **Rubber-stamps it**: a quick LGTM, and bugs slip through
+- **Grinds through it**: hours of review, but the size makes it shallow and inefficient anyway
+
+Source: Propel Code, 50k+ PRs: https://www.propelcode.ai/blog/pr-size-impact-code-review-quality-data-study
 
 ---
 
