@@ -6,6 +6,15 @@ paging: Slide %d / %d
 
 # Stacked PRs with gh-stack
 
+```
+     ┌──────────────┐  PR #4  ui
+     ├──────────────┤  PR #3  controller
+     ├──────────────┤  PR #2  webhook
+     ├──────────────┤  PR #1  api
+     └──────┬───────┘
+           main
+```
+
 Breaking big changes into small, reviewable, unblocked pieces.
 
 _Ahmad Ibrahim · Engineering_
@@ -14,23 +23,30 @@ _Ahmad Ibrahim · Engineering_
 
 # Agenda
 
-1. The problem: a day in the life
-2. The mental model: what "stacking" is
-3. Why it helps: review, flow, throughput, safety
-4. How **gh-stack** works
-5. **Live demo** 🔴
-6. Gotchas & reporting
-7. The landscape & how to start
+```
+  1 ─ problem        a day in the life
+  2 ─ mental model   what "stacking" is
+  3 ─ why it helps   review · flow · throughput · safety
+  4 ─ gh-stack       how it works
+  5 ─ live demo      🔴
+  6 ─ reality        gotchas & reporting
+  7 ─ landscape      how to start
+```
 
 ---
 
 # Meet the cast
 
-- **Alice**, shipping a feature: *scheduled cluster backups*
-  - API type · validating webhook · controller · UI
-- **Bob** will review it
+```
+  Alice builds:  scheduled cluster backups
+  ┌────────────┬────────────┬────────────┬────────────┐
+  │    api     │  webhook   │ controller │     ui     │
+  │  new type  │  validate  │  reconcile │  console   │
+  └────────────┴────────────┴────────────┴────────────┘
+  Bob reviews.
+```
 
-A normal week. Alice hits a fork: **how does she ship this?**
+Alice hits a fork: **how does she ship this?**
 
 Two options. Both are bad.
 
@@ -38,20 +54,33 @@ Two options. Both are bad.
 
 # Option A: the mega-PR
 
-Everything in one PR: **+20,000 lines**.
+Everything in one PR:
 
-- The whole feature is gated behind **one enormous review**
-- Nothing lands until Bob clears all 20k
+```
+  PR #1  "add scheduled backups"
+  ──────────────────────────────────────────
+   api  +  webhook  +  controller  +  ui
+   +20,000   -0     across 73 files
+  ──────────────────────────────────────────
+              one giant review
+```
+
+- Gated behind **one enormous review**; nothing lands until it's all cleared
 - The branch **rots** against `main`; conflicts accrue
 
 ---
 
 # Bob vs the mega-PR
 
-Bob gets pinged. Opens +20,000 lines.
+```
+  reviewing +20,000 lines...
+  file  1/73   ██████████████   real focus
+  file 20/73   ████████         skimming
+  file 45/73   ████             "looks fine"
+  file 73/73   █                LGTM  ▶  bugs slip
+```
 
-- Burn **hours** on a real review, or **LGTM** and move on
-- Focus fades over a giant diff → rubber-stamp → **bugs slip through**
+- A real review costs **hours**; the giant diff pushes toward **LGTM**
 - Alice got **no early feedback**: the design was locked in 20k lines ago
 
 ---
@@ -60,34 +89,60 @@ Bob gets pinged. Opens +20,000 lines.
 
 The *right* instinct: split it up.
 
-`api → webhook → controller → ui`
+```
+   api  ─▶  webhook  ─▶  controller  ─▶  ui
+             (each layer needs the one below)
+```
 
-But each layer **depends on the one below**, and GitHub PRs target `main`.
+But plain PRs all target `main`:
+
+```
+   webhook ─▶ main ?     controller ─▶ main ?
+      wrong base · wrong diff · conflicts
+```
 
 ---
 
 # Option B's trap
 
-To keep moving, Alice must either:
-
-- **Wait** for PR1 to merge before starting PR2 → serialized, idle, **blocked**
-- Or **branch off the unmerged PR1** and hand-rebase the whole chain every time review churns it → **rebase hell she owns**
+```
+                 split into layers
+                        │
+            ┌───────────┴───────────┐
+            ▼                       ▼
+       WAIT for PR1            STACK by hand
+       to merge first         off unmerged PR1
+            │                       │
+       idle · blocked          rebase every layer
+                               on each review churn
+            ▼                       ▼
+         (stuck)                (rebase hell)
+```
 
 ---
 
 # The false dilemma
 
-> Mega-PR (unreviewable) **or** small PRs (blocked / rebase hell).
+```
+      mega-PR                       small PRs
+   unreviewable                blocked / rebase hell
+       ✗                              ✗
+        └──────────────┬──────────────┘
+                       ▼
+            the tooling forced the choice
+```
 
-Nobody was lazy. The **tooling forced the choice.**
+Nobody was lazy.
 
 ---
 
 # What if you didn't have to choose?
 
-Small PRs (Option B), **without** the blocking.
-
-That's a **stack.**
+```
+   Option B's small PRs   +   no blocking
+   ───────────────────────────────────────
+                  =   a STACK
+```
 
 The PR stops being the unit of work. The **layer** is.
 
@@ -122,13 +177,24 @@ Each PR is small. Each targets the one below. Together they're the feature.
 | 3 | **controller**: reconcile CronJob | webhook | small |
 | 4 | **ui**: console form | controller | small |
 
+```
+   api         ■■
+   webhook     ■■■
+   controller  ■■■
+   ui          ■■
+   mega-PR     ■■■■■■■■■■■■■■■■■■■■■■■■   +20,000
+```
+
 Four focused reviews instead of one 20k-line slog.
 
 ---
 
 # Smaller diffs = better review
 
-Batch size drives review **quality and speed**.
+```
+   200-line PR   ██████████   attention spent: high   ✔
+    20k-line PR  █            attention spent: gone    ✗
+```
 
 - A 200-line PR gets a real review. A 20k-line PR gets an LGTM.
 - Bugs are caught where they're introduced, not archaeology later.
@@ -137,37 +203,54 @@ Batch size drives review **quality and speed**.
 
 # Unblock yourself
 
-You don't wait on review to keep building.
+```
+  sequential (no stacking):
+    api      |=build=|=review=|merge|
+    webhook                          |=build=|=review=|...
+             └─ Alice blocked, waiting on review ─┘
 
-- Open PR #1, then **stack PR #2 on top and keep going**
-- Review happens on lower layers while you work up top
-- No branching off in-review branches by hand
+  stacked:
+    api      |=build=|=review=|merge|
+    webhook     |=build=|=review=|merge|
+    ui             |=build=|=review=|merge|
+             └─ keep building up the stack, never idle ─┘
+```
 
 ---
 
 # Throughput
 
-Small batches **ship faster**.
+```
+  one big batch:
+    ████████████████████  ──────────────▶  ships once, late
 
-- Shorter review latency per PR → shorter cycle time
-- Layers merge as they're approved, not all-or-nothing
-- The "performance" story: flow, not heroics
+  small batches:
+    ███ ▶ ███ ▶ ███ ▶ ███  ▶ ▶ ▶ ▶   ship continuously
+```
+
+Shorter review latency per PR → shorter cycle time. Flow, not heroics.
 
 ---
 
 # Continuous & agile
 
-Small changes land **frequently**, not in one big drop.
+```
+  a bug lands on main:
+     ●──●──●──●──●──✗
+  mega-merge :  one 20k commit   ▶  hunt inside it
+  stacked    :  one small layer  ▶  revert / bisect fast  ✔
+```
 
-- Tighter feedback loops → closer to true continuous integration
-- **Small blast radius:** a regression is trivial to isolate
-  - bisect / revert **one layer** vs digging through a 20k merge
+Small changes land **frequently**. Small blast radius = trivial to isolate.
 
 ---
 
 # Alice's week, restacked
 
-Same feature. Same four changes. As a stack:
+```
+  before :  1 × 20k PR    ▶  slow · shallow · blocked
+  after  :  4 small PRs   ▶  fast · focused · flowing
+```
 
 - ✅ Early feedback on the API **before** the UI exists
 - ✅ Bob reviews four focused PRs, actually catches bugs
@@ -181,6 +264,11 @@ Same people. The **tooling** changed the outcome.
 # OK, how do I actually do this?
 
 Meet **`gh-stack`**, GitHub's native stacked-PR extension.
+
+```
+   local branches  ─▶  gh stack  ─▶  a stack of PRs on GitHub
+```
+
 (Public preview. We have early access.)
 
 ---
@@ -199,10 +287,14 @@ Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitH
 # The five beats
 
 ```
-create  →  push  →  submit  →  review  →  merge
+  ┌────────┐  ┌──────┐  ┌────────┐  ┌────────┐  ┌───────┐
+  │ create │─▶│ push │─▶│ submit │─▶│ review │─▶│ merge │
+  └────────┘  └──────┘  └────────┘  └────────┘  └───────┘
+   gs init     gs push   gs submit   (on GH)     gs merge
+   gs add
 ```
 
-Build layers locally, push them, open the PRs, get focused reviews, land them.
+Build layers locally, push, open the PRs, get focused reviews, land them.
 
 ---
 
@@ -254,14 +346,20 @@ What Bob sees on github.com. Navigate the layers:
 
 # Cascading merge
 
-Merge any layer → everything below it lands, and the rest **auto-rebase**.
+```
+  merge the bottom PR...        ...the rest auto-rebase:
+
+    ui         ●                  ui         ●
+    controller ●                  controller ●  rebased
+    webhook    ●         ─▶       webhook    ●  rebased
+    api        ● ▸ main           api    ✔ merged
+    main       ┴                  main       ┴
+```
 
 ```bash
 gh stack merge      # or click Merge on a PR in the UI
 gh stack sync       # pull the cascade down locally
 ```
-
-No manual rebasing of the branches above. The tool restacks them.
 
 ---
 
@@ -281,14 +379,27 @@ No manual rebasing of the branches above. The tool restacks them.
 
 # Let's see it live 🔴
 
-A real 3-layer stack: **api → webhook → controller**.
+```
+    ╔══════════════════════════════════╗
+    ║             LIVE  DEMO           ║
+    ╚══════════════════════════════════╝
+       api   ▶   webhook   ▶   controller
+```
+
+A real 3-layer stack.
 
 ---
 
 # Review UX & CI
 
-- CI runs on **each PR as if it targets `main`**: every layer is tested standalone
-- Branch protection is enforced on the **final target branch**, not the intermediate layer branches
+```
+  each PR is tested as if it targets main:
+    PR #3 controller   ▶  CI ✔
+    PR #2 webhook      ▶  CI ✔
+    PR #1 api          ▶  CI ✔
+```
+
+Branch protection is enforced on the **final target branch**, not the intermediate layer branches.
 
 ---
 
@@ -302,11 +413,15 @@ A real 3-layer stack: **api → webhook → controller**.
 
 # Stacks multiply CI load
 
-Each layer runs CI → an N-layer stack ≈ **N× the runs** of one PR.
-Restacks (review churn or a merge) **re-trigger** down the chain.
+```
+  1 mega-PR       ▶  CI runs ×1
+  4-layer stack   ▶  CI runs ×4      (one per layer)
+  + a merge/restack  ▶  re-runs down the chain
+  now multiply across every AI-authored PR, too ...
+```
 
 - Mitigate: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
-- **Bigger picture:** AI-generated code is already inflating PR volume. CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
+- **Bigger picture:** CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
 
 ---
 
@@ -325,7 +440,10 @@ We're early adopters. Our feedback shapes the tool.
 
 The stacking landscape:
 
-- **Graphite**, **Aviator (`av`)**, **spr**, Meta's **ghstack / Sapling**, **git-town**
+```
+   Graphite    Aviator (av)    spr
+   ghstack / Sapling (Meta)    git-town
+```
 
 Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 
@@ -342,19 +460,28 @@ Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 
 # Try it Monday
 
-- A few of us are already stacking, and it works
-- Pick **one** medium feature this week
-- Split it into **2-3 layers**, `gs init` / `gs add` / `gs submit`
-- Docs: `gh.io/stacks`
+```
+   [ ] pick one medium feature
+   [ ] split into 2-3 layers
+   [ ] gs init  ▶  gs add  ▶  gs submit
+   [ ] read gh.io/stacks
+```
+
+A few of us are already stacking, and it works.
 
 ---
 
 # Thanks
 
-**Stacked PRs:** small, reviewable, unblocked.
+```
+     ┌──────────────┐  small
+     ├──────────────┤  reviewable
+     ├──────────────┤  unblocked
+     ├──────────────┤  continuous
+     └──────┬───────┘
+           main
+```
 
-- Escape the false dilemma
-- Faster, safer, more continuous delivery
-- `gh extension install github/gh-stack`
+`gh extension install github/gh-stack`
 
 Questions?
