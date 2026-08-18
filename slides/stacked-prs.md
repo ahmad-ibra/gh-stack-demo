@@ -210,14 +210,17 @@ Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitH
 ## Build the stack
 
 ```bash
-gh stack init                       # start a stack on main
-# ... edit the API layer ...
-gh stack add -Am "api: BackupSchedule type" feature/backup-api
-# ... edit the webhook layer ...
-gh stack add -Am "webhook: validate schedule" feature/backup-webhook
+gh stack init                    # start a stack on main
+
+# edit the api layer, then add it as the bottom PR:
+gh stack add -A -m "api: BackupSchedule type" feature/backup-api
+#   -A stages your edits · -m is the commit message · then it stacks the branch
+
+# edit the webhook layer, then stack it on top:
+gh stack add -A -m "webhook: validate schedule" feature/backup-webhook
 ```
 
-`add` stages, commits, and stacks a new branch on top, all in one command.
+One `add` stages, commits, and creates the next layer.
 
 ---
 
@@ -230,28 +233,6 @@ gh stack view       # see the stack locally
 ```
 
 `submit` sets each PR's base to the layer below, automatically.
-
----
-
-# 3 · gh stack
-## The stack map
-
-What Bob sees on github.com. Navigate the layers:
-
-```
-  Stack: add-scheduled-backups
-    ○ #4  ui: console form            (top)
-    │
-    ○ #3  controller: reconcile
-    │
-    ○ #2  webhook: validate schedule
-    │
-    ● #1  api: BackupSchedule type    ← reviewing
-    │
-    main
-```
-
-(We'll see the real one live in a minute.)
 
 ---
 
@@ -278,13 +259,13 @@ gh stack sync       # pull the cascade down locally
 # 3 · gh stack
 ## git → gs cheat sheet
 
-| Goal | Manual git/gh | gh stack |
-|------|---------------|----------|
-| Start bottom layer | `git checkout -b feat-api main` | `gs init` |
-| Add dependent layer | `git checkout -b feat-webhook feat-api` | `gs add -Am "…" feat-webhook` |
-| Push branches | `git push -u origin <each>` | `gs push` |
-| Open PRs w/ right bases | open each PR, hand-set base | `gs submit` |
-| Restack after change/merge | `git rebase` each branch in order, fix conflicts | `gs sync` (or `gs rebase`) |
+| the git way | with gh stack |
+|-------------|---------------|
+| `git checkout -b feat-api main` | `gs init` |
+| edit, `git commit`, `git checkout -b feat-webhook` | `gs add -A -m "…" feat-webhook` |
+| `git push -u origin` each branch | `gs push` |
+| open each PR, set its base by hand | `gs submit` |
+| `git rebase` every branch in order, fix conflicts | `gs sync` |
 
 **`gh stack` is Option B, minus the manual pain.**
 
