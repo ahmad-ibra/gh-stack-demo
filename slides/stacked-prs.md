@@ -1,9 +1,9 @@
 ---
-author: Ahmad Ibrahim · Stacked PRs with gh-stack
+author: Ahmad Ibrahim · Stacked PRs with gh stack
 paging: Slide %d / %d
 ---
 
-# Stacked PRs with gh-stack
+# Stacked PRs with gh stack
 
 ```
    ┌──────────────┐        ┌────────────┐
@@ -25,13 +25,13 @@ _Under the Hood · Ahmad Ibrahim · August 19th, 2026_
 # Agenda
 
 ```
-  1 · problem        a typical dev's workflow
-  2 · a better way   what "stacking" is
-  3 · why it helps   focused reviews · unblocking development
-  4 · gh-stack       command overview
-  5 · live demo      stacking changes on each other
-  6 · reality        gotchas & CI cost
-  7 · landscape      alternatives & why gh-stack
+  1 · problem         a typical dev's workflow
+  2 · a better way    what "stacking" is
+  3 · gh stack        the commands
+  4 · live demo       stacking changes on each other
+  5 · why it matters  throughput & traceability
+  6 · reality         gotchas & CI cost
+  7 · landscape       alternatives & why gh stack
 ```
 
 ---
@@ -194,97 +194,18 @@ The manual work from Option B, gone.
 
 ---
 
-# 3 · Why it helps
-## Smaller diffs = better review
-
-```
-   200-line PR   ██████████   attention spent: high   ✔
-    20k-line PR  █            attention spent: gone    ✗
-```
-
-- A 200-line PR gets a real review. A 20k-line PR gets an LGTM.
-- Bugs are caught where they're introduced, not archaeology later.
-
----
-
-# 3 · Why it helps
-## Unblock yourself
-
-```
-  sequential (no stacking):
-    api      |=build=|=review=|merge|
-    webhook                          |=build=|=review=|...
-             └─ Alice blocked, waiting on review ─┘
-
-  stacked:
-    api      |=build=|=review=|merge|
-    webhook     |=build=|=review=|merge|
-    ui             |=build=|=review=|merge|
-             └─ keep building up the stack, never idle ─┘
-```
-
----
-
-# 3 · Why it helps
-## Throughput
-
-```
-  one big batch:
-    ████████████████████  ──────────────▶  ships once, late
-
-  small batches:
-    ███ ▶ ███ ▶ ███ ▶ ███  ▶ ▶ ▶ ▶   ship continuously
-```
-
-Shorter review latency per PR → shorter cycle time. Flow, not heroics.
-
----
-
-# 3 · Why it helps
-## Continuous & agile
-
-```
-  a bug lands on main:
-     ●──●──●──●──●──✗
-  mega-merge :  one 20k commit   ▶  hunt inside it
-  stacked    :  one small layer  ▶  revert / bisect fast  ✔
-```
-
-Small changes land **frequently**. Small blast radius = trivial to isolate.
-
----
-
-# 3 · Why it helps
-## Alice's week, restacked
-
-```
-  before :  1 × 20k PR    ▶  slow · shallow · blocked
-  after  :  4 small PRs   ▶  fast · focused · flowing
-```
-
-- ✅ Early feedback on the API **before** the UI exists
-- ✅ Bob reviews four focused PRs, actually catches bugs
-- ✅ Alice keeps building up the stack, **never blocked**
-- ✅ No hand-rebasing: the tool restacks for her
-
-Same people. The **tooling** changed the outcome.
-
----
-
-# 4 · gh-stack
-## How do I actually do this?
-
-Meet **`gh-stack`**, GitHub's native stacked-PR extension.
+# 3 · gh stack
+## The workflow
 
 ```
    local branches  ─▶  gh stack  ─▶  a stack of PRs on GitHub
 ```
 
-(Public preview. We have early access.)
+Install once, then a handful of commands do the rest.
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## Install
 
 ```bash
@@ -296,7 +217,7 @@ Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitH
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## The five beats
 
 ```
@@ -311,7 +232,7 @@ Build layers locally, push, open the PRs, get focused reviews, land them.
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## Build the stack
 
 ```bash
@@ -326,7 +247,7 @@ gh stack add -Am "webhook: validate schedule" feature/backup-webhook
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## Ship the stack
 
 ```bash
@@ -338,7 +259,7 @@ gh stack view       # see the stack locally
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## The stack map
 
 What Bob sees on github.com. Navigate the layers:
@@ -360,7 +281,7 @@ What Bob sees on github.com. Navigate the layers:
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## Cascading merge
 
 ```
@@ -380,10 +301,10 @@ gh stack sync       # pull the cascade down locally
 
 ---
 
-# 4 · gh-stack
+# 3 · gh stack
 ## git → gs cheat sheet
 
-| Goal | Manual git/gh | gh-stack |
+| Goal | Manual git/gh | gh stack |
 |------|---------------|----------|
 | Start bottom layer | `git checkout -b feat-api main` | `gs init` |
 | Add dependent layer | `git checkout -b feat-webhook feat-api` | `gs add -Am "…" feat-webhook` |
@@ -391,11 +312,11 @@ gh stack sync       # pull the cascade down locally
 | Open PRs w/ right bases | open each PR, hand-set base | `gs submit` |
 | Restack after change/merge | `git rebase` each branch in order, fix conflicts | `gs sync` (or `gs rebase`) |
 
-**`gh-stack` is Option B, minus the manual pain.**
+**`gh stack` is Option B, minus the manual pain.**
 
 ---
 
-# 5 · Live demo
+# 4 · Live demo
 ## Let's see it live 🔴
 
 ```
@@ -406,6 +327,52 @@ gh stack sync       # pull the cascade down locally
 ```
 
 A real 3-layer stack.
+
+---
+
+# 5 · Why it matters
+## Alice's week, restacked
+
+```
+  before :  1 × 20k PR    ▶  slow · shallow · blocked
+  after  :  4 small PRs   ▶  fast · focused · flowing
+```
+
+- ✅ Early feedback on the API **before** the UI exists
+- ✅ Bob reviews four focused PRs, actually catches bugs
+- ✅ Alice keeps building up the stack, **never blocked**
+- ✅ No hand-rebasing: the tool restacks for her
+
+Same people. The **tooling** changed the outcome.
+
+---
+
+# 5 · Why it matters
+## Throughput
+
+```
+  one big batch:
+    ████████████████████  ──────────────▶  ships once, late
+
+  small batches:
+    ███ ▶ ███ ▶ ███ ▶ ███  ▶ ▶ ▶ ▶   ship continuously
+```
+
+Shorter review latency per PR → shorter cycle time. Flow, not heroics.
+
+---
+
+# 5 · Why it matters
+## Continuous & agile
+
+```
+  a bug lands on main:
+     ●──●──●──●──●──✗
+  mega-merge :  one 20k commit   ▶  hunt inside it
+  stacked    :  one small layer  ▶  revert / bisect fast  ✔
+```
+
+Small changes land **frequently**. Small blast radius = trivial to isolate.
 
 ---
 
@@ -469,12 +436,12 @@ The stacking landscape:
    ghstack / Sapling (Meta)    git-town
 ```
 
-Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
+Stacking is a proven workflow. gh stack makes it **native to GitHub**.
 
 ---
 
 # 7 · Landscape
-## Why gh-stack for us
+## Why gh stack for us
 
 - **Native GitHub**: no third-party app, no extra permissions
 - The **stack map** is built into the PR UI
