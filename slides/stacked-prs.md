@@ -275,16 +275,12 @@ Atomic: the chosen PR and everything below land together.
 ---
 
 # 4 · Live demo
-## Let's see it live 🔴
 
 ```
     ╔══════════════════════════════════╗
     ║             LIVE  DEMO           ║
     ╚══════════════════════════════════╝
-       api   ▶   webhook   ▶   controller
 ```
-
-A real 3-layer stack.
 
 ---
 
