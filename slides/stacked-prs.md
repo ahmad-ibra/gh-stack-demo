@@ -233,11 +233,9 @@ Commit with git as you normally would. `gs init` and `gs add` create the stacked
 ```bash
 gs submit     # push all branches + open/update every PR
 gs view       # see the stack, and switch between its branches
-gs sync       # after changing a lower layer, rebase everything above
 ```
 
-`submit` sets each PR's base automatically. When review changes a lower
-layer, `gs sync` rebases the whole stack on top for you, no manual rebasing.
+`submit` opens every PR with the right base, automatically.
 
 ---
 
@@ -254,11 +252,12 @@ layer, `gs sync` rebases the whole stack on top for you, no manual rebasing.
     main       ┴                  main       ┴
 ```
 
-```bash
-gs merge      # or click Merge on a PR in the UI
-```
+Merge the whole stack, or just part of it, from the PR's merge button (or `gs merge`).
+Atomic: the chosen PR and everything below land together.
 
-Merge any layer and everything below it lands; the rest rebase onto `main` automatically.
+- On GitHub, the PRs above **auto-rebase** onto the new base
+- Locally, `gs sync` pulls the cascade down (and rebases your stack whenever
+  you change a lower layer, too)
 
 ---
 
