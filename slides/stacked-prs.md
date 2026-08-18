@@ -326,7 +326,6 @@ We're early adopters. Our feedback shapes the tool.
 The stacking landscape:
 
 - **Graphite**, **Aviator (`av`)**, **spr**, Meta's **ghstack / Sapling**, **git-town**
-- (**Linear** is issue tracking — *not* a stacking tool)
 
 Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 
