@@ -14,9 +14,9 @@ _Ahmad Ibrahim · Engineering_
 
 # Agenda
 
-1. The problem — a day in the life
-2. The mental model — what "stacking" is
-3. Why it helps — review, flow, throughput, safety
+1. The problem: a day in the life
+2. The mental model: what "stacking" is
+3. Why it helps: review, flow, throughput, safety
 4. How **gh-stack** works
 5. **Live demo** 🔴
 6. Gotchas & reporting
@@ -26,9 +26,9 @@ _Ahmad Ibrahim · Engineering_
 
 # Meet the cast
 
-- **Alice** — shipping a feature: *scheduled cluster backups*
+- **Alice**, shipping a feature: *scheduled cluster backups*
   - API type · validating webhook · controller · UI
-- **Bob** — will review it
+- **Bob** will review it
 
 A normal week. Alice hits a fork: **how does she ship this?**
 
@@ -36,7 +36,7 @@ Two options. Both are bad.
 
 ---
 
-# Option A — the mega-PR
+# Option A: the mega-PR
 
 Everything in one PR: **+20,000 lines**.
 
@@ -50,13 +50,13 @@ Everything in one PR: **+20,000 lines**.
 
 Bob gets pinged. Opens +20,000 lines.
 
-- Burn **hours** on a real review… or **LGTM** and move on
+- Burn **hours** on a real review, or **LGTM** and move on
 - Focus fades over a giant diff → rubber-stamp → **bugs slip through**
-- Alice got **no early feedback** — the design was locked in 20k lines ago
+- Alice got **no early feedback**: the design was locked in 20k lines ago
 
 ---
 
-# Option B — smaller PRs
+# Option B: smaller PRs
 
 The *right* instinct: split it up.
 
@@ -85,7 +85,7 @@ Nobody was lazy. The **tooling forced the choice.**
 
 # What if you didn't have to choose?
 
-Small PRs (Option B) — **without** the blocking.
+Small PRs (Option B), **without** the blocking.
 
 That's a **stack.**
 
@@ -117,10 +117,10 @@ Each PR is small. Each targets the one below. Together they're the feature.
 
 | # | Layer | Targets | Size |
 |---|-------|---------|------|
-| 1 | **api** — `BackupSchedule` type | `main` | small |
-| 2 | **webhook** — validate schedule | api | small |
-| 3 | **controller** — reconcile CronJob | webhook | small |
-| 4 | **ui** — console form | controller | small |
+| 1 | **api**: `BackupSchedule` type | `main` | small |
+| 2 | **webhook**: validate schedule | api | small |
+| 3 | **controller**: reconcile CronJob | webhook | small |
+| 4 | **ui**: console form | controller | small |
 
 Four focused reviews instead of one 20k-line slog.
 
@@ -171,16 +171,16 @@ Same feature. Same four changes. As a stack:
 
 - ✅ Early feedback on the API **before** the UI exists
 - ✅ Bob reviews four focused PRs, actually catches bugs
-- ✅ Alice keeps building up the stack — **never blocked**
-- ✅ No hand-rebasing — the tool restacks for her
+- ✅ Alice keeps building up the stack, **never blocked**
+- ✅ No hand-rebasing: the tool restacks for her
 
 Same people. The **tooling** changed the outcome.
 
 ---
 
-# OK — how do I actually do this?
+# OK, how do I actually do this?
 
-Meet **`gh-stack`** — GitHub's native stacked-PR extension.
+Meet **`gh-stack`**, GitHub's native stacked-PR extension.
 (Public preview. We have early access.)
 
 ---
@@ -216,7 +216,7 @@ gh stack add -Am "api: BackupSchedule type" feature/backup-api
 gh stack add -Am "webhook: validate schedule" feature/backup-webhook
 ```
 
-`add` stages, commits, and stacks a new branch on top — one command.
+`add` stages, commits, and stacks a new branch on top, all in one command.
 
 ---
 
@@ -227,13 +227,13 @@ gh stack submit     # push all branches + open/update every PR
 gh stack view       # see the stack locally
 ```
 
-`submit` sets each PR's base to the layer below — automatically.
+`submit` sets each PR's base to the layer below, automatically.
 
 ---
 
 # The stack map
 
-What Bob sees on github.com — navigate the layers:
+What Bob sees on github.com. Navigate the layers:
 
 ```
   Stack: add-scheduled-backups
@@ -275,7 +275,7 @@ No manual rebasing of the branches above. The tool restacks them.
 | Open PRs w/ right bases | open each PR, hand-set base | `gs submit` |
 | Restack after change/merge | `git rebase` each branch in order, fix conflicts | `gs sync` (or `gs rebase`) |
 
-**`gh-stack` is Option B — minus the manual pain.**
+**`gh-stack` is Option B, minus the manual pain.**
 
 ---
 
@@ -287,15 +287,15 @@ A real 3-layer stack: **api → webhook → controller**.
 
 # Review UX & CI
 
-- CI runs on **each PR as if it targets `main`** — every layer is tested standalone
+- CI runs on **each PR as if it targets `main`**: every layer is tested standalone
 - Branch protection is enforced on the **final target branch**, not the intermediate layer branches
 
 ---
 
 # Gotchas
 
-- Keep the stack **in sync** — `gs sync` after merges / review churn
-- **Don't stack everything** — a tiny one-shot change is just a PR
+- Keep the stack **in sync**: `gs sync` after merges / review churn
+- **Don't stack everything**: a tiny one-shot change is just a PR
 - Stacking rewards **discipline**: small, coherent layers with clean boundaries
 
 ---
@@ -306,11 +306,11 @@ Each layer runs CI → an N-layer stack ≈ **N× the runs** of one PR.
 Restacks (review churn or a merge) **re-trigger** down the chain.
 
 - Mitigate: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
-- **Bigger picture:** AI-generated code is already inflating PR volume. CI must scale to changing throughput **regardless** — stacking just surfaces the need sooner.
+- **Bigger picture:** AI-generated code is already inflating PR volume. CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
 
 ---
 
-# It's public preview — tell them
+# It's public preview, tell them
 
 We're early adopters. Our feedback shapes the tool.
 
@@ -333,18 +333,18 @@ Stacking is a proven workflow. gh-stack makes it **native to GitHub**.
 
 # Why gh-stack for us
 
-- **Native GitHub** — no third-party app, no extra permissions
+- **Native GitHub**: no third-party app, no extra permissions
 - The **stack map** is built into the PR UI
-- **CLI is optional** — works alongside the normal PR flow
+- **CLI is optional**: works alongside the normal PR flow
 - Zero new SaaS in the review path
 
 ---
 
 # Try it Monday
 
-- A few of us are already stacking — it works
+- A few of us are already stacking, and it works
 - Pick **one** medium feature this week
-- Split it into **2–3 layers**, `gs init` / `gs add` / `gs submit`
+- Split it into **2-3 layers**, `gs init` / `gs add` / `gs submit`
 - Docs: `gh.io/stacks`
 
 ---
