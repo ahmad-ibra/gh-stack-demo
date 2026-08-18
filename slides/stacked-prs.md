@@ -285,48 +285,17 @@ Atomic: the chosen PR and everything below land together.
 ---
 
 # 5 · Why it matters
-## Alice's week, restacked
+## The payoff, at scale
 
 ```
-  before :  1 × 20k PR    ▶  slow · shallow · blocked
-  after  :  4 small PRs   ▶  fast · focused · flowing
+  mega-PR   █████████████████  ▶  lands once, late; a bug hides in 20k lines
+  stacked   ██ ▶ ██ ▶ ██ ▶ ██  ▶  lands continuously; a bug = one small layer
 ```
 
-- ✅ Early feedback on the API **before** the UI exists
-- ✅ Bob reviews four focused PRs, actually catches bugs
-- ✅ Alice keeps building up the stack, **never blocked**
-- ✅ No hand-rebasing: the tool restacks for her
-
-Same people. The **tooling** changed the outcome.
-
----
-
-# 5 · Why it matters
-## Throughput
-
-```
-  one big batch:
-    ████████████████████  ──────────────▶  ships once, late
-
-  small batches:
-    ███ ▶ ███ ▶ ███ ▶ ███  ▶ ▶ ▶ ▶   ship continuously
-```
-
-Shorter review latency per PR → shorter cycle time. Flow, not heroics.
-
----
-
-# 5 · Why it matters
-## Continuous & agile
-
-```
-  a bug lands on main:
-     ●──●──●──●──●──✗
-  mega-merge :  one 20k commit   ▶  hunt inside it
-  stacked    :  one small layer  ▶  revert / bisect fast  ✔
-```
-
-Small changes land **frequently**. Small blast radius = trivial to isolate.
+- **Better reviews**: small diffs get a real review, not a rubber-stamp LGTM
+- **Unblocked**: keep stacking upward while lower layers are in review
+- **Faster**: small PRs merge as approved, shortening cycle time
+- **Safer**: a regression lives in one layer, so bisect or revert instead of a 20k dig
 
 ---
 
