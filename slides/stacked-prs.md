@@ -1,6 +1,5 @@
 ---
-author: Ahmad Ibrahim
-date: August 2026
+author: Ahmad Ibrahim · Stacked PRs with gh-stack
 paging: Slide %d / %d
 ---
 
@@ -17,7 +16,7 @@ paging: Slide %d / %d
 
 Breaking big changes into small, reviewable, unblocked pieces.
 
-_Ahmad Ibrahim · Engineering_
+_Ahmad Ibrahim · Engineering · August 19th, 2026_
 
 ---
 
