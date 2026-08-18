@@ -192,6 +192,8 @@ extension) that builds and manages stacks for you:
 
 The manual work from Option B, gone.
 
+Docs: https://github.github.com/gh-stack/introduction/overview/
+
 ---
 
 # 3 · gh stack
