@@ -98,19 +98,23 @@ Source: Propel Code, 50k+ PRs: https://www.propelcode.ai/blog/pr-size-impact-cod
 # 1 · The problem
 ## Option B: smaller PRs
 
-The *right* instinct: split it up.
+The right instinct: split it into small PRs. But each depends on the one
+below, so they land one at a time:
 
 ```
-   api  ─▶  webhook  ─▶  controller  ─▶  ui
-             (each layer needs the one below)
+  main
+   ┃
+   ┣━▶ branch → code → review ⌛ → merge ┐
+   ┃ ◀──────────────────────────────────┘
+   ┣━▶ branch → code → review ⌛ → merge ┐
+   ┃ ◀──────────────────────────────────┘
+   ┣━▶ branch → code → review ⌛ → merge ┐
+   ┃ ◀──────────────────────────────────┘
+   ▼
+  time
 ```
 
-But plain PRs all target `main`:
-
-```
-   webhook ─▶ main ?     controller ─▶ main ?
-      wrong base · wrong diff · conflicts
-```
+Alice's idle time continues to stack as each change is reviewed.
 
 ---
 
