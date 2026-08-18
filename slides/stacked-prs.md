@@ -233,9 +233,11 @@ Commit with git as you normally would. `gs init` and `gs add` create the stacked
 ```bash
 gs submit     # push all branches + open/update every PR
 gs view       # see the stack, and switch between its branches
+gs sync       # after changing a lower layer, rebase everything above
 ```
 
-`submit` sets each PR's base to the layer below, automatically.
+`submit` sets each PR's base automatically. When review changes a lower
+layer, `gs sync` rebases the whole stack on top for you, no manual rebasing.
 
 ---
 
