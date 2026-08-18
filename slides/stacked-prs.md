@@ -210,13 +210,13 @@ Now `gs` manages your stack locally, then pushes to GitHub. (We'll use `gs` from
 ## Build the stack
 
 ```bash
-gs init feature/api              # create the bottom branch off main
+gs init feat/api                 # create the bottom branch off main
 
 # make the api changes, then commit as usual:
 git add .
 git commit -m "api: BackupSchedule type"
 
-gs add feature/webhook           # stack the next branch on top
+gs add feat/webhook              # stack the next branch on top
 
 # make the webhook changes, then commit:
 git add .
@@ -265,15 +265,12 @@ Atomic: the chosen PR and everything below land together.
 # 3 · gh stack
 ## git → gs cheat sheet
 
-| the git way | with gh stack |
-|-------------|---------------|
-| `git checkout -b feature/api main` | `gs init feature/api` |
-| `git commit`, `git checkout -b feature/webhook` | `gs add feature/webhook` |
-| `git push -u origin` each branch | `gs push` |
-| open each PR, set its base by hand | `gs submit` |
-| `git rebase` every branch in order, fix conflicts | `gs sync` |
-
-**`gh stack` is Option B, minus the manual pain.**
+| step | plain git | gh stack |
+|------|-----------|----------|
+| start the stack | `git checkout -b feat/api` | `gs init feat/api` |
+| add a layer | `git checkout -b feat/webhook` | `gs add feat/webhook` |
+| push & open PRs | push + open PRs by hand | `gs submit` |
+| restack after a change | `git rebase` each, fix conflicts | `gs sync` |
 
 ---
 
