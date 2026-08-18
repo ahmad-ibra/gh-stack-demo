@@ -210,17 +210,20 @@ Now `gs` manages your stack locally, then pushes to GitHub. (We'll use `gs` from
 ## Build the stack
 
 ```bash
-gs init                          # start a stack on main
+gs init feature/api              # create the bottom branch off main
 
-# edit the api layer, then add it as the bottom PR:
-gs add -A -m "api: BackupSchedule type" feature/backup-api
-#   -A stages your edits · -m is the commit message · then it stacks the branch
+# make the api changes, then commit as usual:
+git add .
+git commit -m "api: BackupSchedule type"
 
-# edit the webhook layer, then stack it on top:
-gs add -A -m "webhook: validate schedule" feature/backup-webhook
+gs add feature/webhook           # stack the next branch on top
+
+# make the webhook changes, then commit:
+git add .
+git commit -m "webhook: validate schedule"
 ```
 
-One `add` stages, commits, and creates the next layer.
+Commit with git as you normally would. `gs init` and `gs add` create the stacked branches.
 
 ---
 
@@ -229,7 +232,7 @@ One `add` stages, commits, and creates the next layer.
 
 ```bash
 gs submit     # push all branches + open/update every PR
-gs view       # see the stack locally
+gs view       # see the stack, and switch between its branches
 ```
 
 `submit` sets each PR's base to the layer below, automatically.
@@ -261,8 +264,8 @@ gs sync       # pull the cascade down locally
 
 | the git way | with gh stack |
 |-------------|---------------|
-| `git checkout -b feat-api main` | `gs init` |
-| edit, `git commit`, `git checkout -b feat-webhook` | `gs add -A -m "…" feat-webhook` |
+| `git checkout -b feature/api main` | `gs init feature/api` |
+| `git commit`, `git checkout -b feature/webhook` | `gs add feature/webhook` |
 | `git push -u origin` each branch | `gs push` |
 | open each PR, set its base by hand | `gs submit` |
 | `git rebase` every branch in order, fix conflicts | `gs sync` |
