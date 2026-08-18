@@ -202,7 +202,7 @@ gh extension install github/gh-stack
 gh stack alias          # optional: adds `gs`
 ```
 
-Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitHub.
+Now `gs` manages your stack locally, then pushes to GitHub. (We'll use `gs` from here on.)
 
 ---
 
@@ -210,14 +210,14 @@ Now `gh stack …` (or `gs …`) manages your stack locally, then pushes to GitH
 ## Build the stack
 
 ```bash
-gh stack init                    # start a stack on main
+gs init                          # start a stack on main
 
 # edit the api layer, then add it as the bottom PR:
-gh stack add -A -m "api: BackupSchedule type" feature/backup-api
+gs add -A -m "api: BackupSchedule type" feature/backup-api
 #   -A stages your edits · -m is the commit message · then it stacks the branch
 
 # edit the webhook layer, then stack it on top:
-gh stack add -A -m "webhook: validate schedule" feature/backup-webhook
+gs add -A -m "webhook: validate schedule" feature/backup-webhook
 ```
 
 One `add` stages, commits, and creates the next layer.
@@ -228,8 +228,8 @@ One `add` stages, commits, and creates the next layer.
 ## Ship the stack
 
 ```bash
-gh stack submit     # push all branches + open/update every PR
-gh stack view       # see the stack locally
+gs submit     # push all branches + open/update every PR
+gs view       # see the stack locally
 ```
 
 `submit` sets each PR's base to the layer below, automatically.
@@ -250,8 +250,8 @@ gh stack view       # see the stack locally
 ```
 
 ```bash
-gh stack merge      # or click Merge on a PR in the UI
-gh stack sync       # pull the cascade down locally
+gs merge      # or click Merge on a PR in the UI
+gs sync       # pull the cascade down locally
 ```
 
 ---
@@ -374,7 +374,7 @@ Branch protection is enforced on the **final target branch**, not the intermedia
 
 We're early adopters. Our feedback shapes the tool.
 
-- `gh stack feedback`  →  `gh.io/stacks-feedback`
+- `gs feedback`  →  `gh.io/stacks-feedback`
 - Bugs / requests: **github/gh-stack** issues
 - Docs: `gh.io/stacks`
 - Internal: **#eng-gh-stack** to flag problems & get help
