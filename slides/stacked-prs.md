@@ -16,7 +16,7 @@ paging: Slide %d / %d
 
 Breaking big changes into small, reviewable, unblocked pieces.
 
-_Ahmad Ibrahim · Engineering · August 19th, 2026_
+_Under the Hood · Ahmad Ibrahim · August 19th, 2026_
 
 ---
 
