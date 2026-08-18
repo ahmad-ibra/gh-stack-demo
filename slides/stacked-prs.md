@@ -333,14 +333,16 @@ We're early adopters, so report what you hit:
 # 7 · The stacked diff ecosystem
 ## Not a new idea
 
-The stacking landscape:
+- **15+ years old**: Google's **Gerrit** (chained changes) and Meta's **Phabricator** (which coined "stacked diffs")
+
+Tools & platforms that stack today:
 
 ```
-   Graphite    Aviator (av)    spr
-   ghstack / Sapling (Meta)    git-town
+   Graphite · Aviator (av) · spr · ghstack · Sapling · git-town · GitButler
+   GitLab (stacked MRs) · GitHub (gh stack)
 ```
 
-Stacking is a proven workflow. gh stack makes it **native to GitHub**.
+A proven workflow. gh stack brings it natively to GitHub.
 
 ---
 
