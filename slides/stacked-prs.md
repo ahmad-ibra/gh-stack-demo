@@ -30,8 +30,8 @@ _Under the Hood · Ahmad Ibrahim · August 19th, 2026_
   3 · gh stack        the commands
   4 · live demo       stacking changes on each other
   5 · why it matters  throughput & traceability
-  6 · reality         gotchas & CI cost
-  7 · landscape       alternatives & why gh stack
+  6 · reality         CI cost & feedback
+  7 · ecosystem       alternatives & why gh stack
 ```
 
 ---
@@ -330,8 +330,8 @@ We're early adopters, so report what you hit:
 
 ---
 
-# 7 · Landscape
-## You're not the first
+# 7 · The stacked diff ecosystem
+## Not a new idea
 
 The stacking landscape:
 
@@ -344,7 +344,7 @@ Stacking is a proven workflow. gh stack makes it **native to GitHub**.
 
 ---
 
-# 7 · Landscape
+# 7 · The stacked diff ecosystem
 ## Why gh stack for us
 
 - **Native GitHub**: no third-party app, no extra permissions
