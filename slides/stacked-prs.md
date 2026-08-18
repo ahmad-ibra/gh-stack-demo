@@ -37,20 +37,19 @@ _Under the Hood · Ahmad Ibrahim · August 19th, 2026_
 ---
 
 # 1 · The problem
-## Meet the cast
+## The setup
+
+Alice has a big feature to implement. It has multiple pieces that depend on each other:
 
 ```
-  Alice builds:  scheduled cluster backups
-  ┌────────────┬────────────┬────────────┬────────────┐
-  │    api     │  webhook   │ controller │     ui     │
-  │  new type  │  validate  │  reconcile │  console   │
-  └────────────┴────────────┴────────────┴────────────┘
-  Bob reviews.
+  ┌───────┐   ┌─────────┐   ┌────────────┐   ┌──────┐
+  │  api  │ ▶ │ webhook │ ▶ │ controller │ ▶ │  ui  │
+  └───────┘   └─────────┘   └────────────┘   └──────┘
 ```
 
 Alice hits a fork: **how does she ship this?**
 
-Two options. Both are bad.
+Two options, neither are ideal.
 
 ---
 
