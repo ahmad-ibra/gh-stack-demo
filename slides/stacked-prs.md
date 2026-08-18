@@ -144,13 +144,15 @@ Bad tooling is forcing this choice.
 # 2 · A better way
 ## What if you didn't have to choose?
 
-```
-   Option B's small PRs   +   no blocking
-   ───────────────────────────────────────
-                  =   a STACK
-```
+Take the good from each, leave the bad:
 
-The PR stops being the unit of work. The **layer** is.
+```
+   keep building,               small, focused
+   never blocked                reviews
+          └───────────┬──────────┘
+                      ▼
+                  a  STACK
+```
 
 ---
 
