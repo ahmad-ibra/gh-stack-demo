@@ -300,15 +300,6 @@ Atomic: the chosen PR and everything below land together.
 ---
 
 # 6 · Reality
-## Gotchas
-
-- Keep the stack **in sync**: `gs sync` after merges / review churn
-- **Don't stack everything**: a tiny one-shot change is just a PR
-- Stacking rewards **discipline**: small, coherent layers with clean boundaries
-
----
-
-# 6 · Reality
 ## Stacks multiply CI load
 
 ```
@@ -320,6 +311,15 @@ Atomic: the chosen PR and everything below land together.
 
 - Mitigate: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
 - **Bigger picture:** CI must scale to changing throughput **regardless**. Stacking just surfaces the need sooner.
+
+---
+
+# 6 · Reality
+## Gotchas
+
+- Keep the stack **in sync**: `gs sync` after merges / review churn
+- **Don't stack everything**: a tiny one-shot change is just a PR
+- Stacking rewards **discipline**: small, coherent layers with clean boundaries
 
 ---
 
