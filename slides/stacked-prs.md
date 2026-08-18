@@ -26,7 +26,7 @@ _Under the Hood · Ahmad Ibrahim · August 19th, 2026_
 
 ```
   1 · problem        a typical dev's workflow
-  2 · mental model   what "stacking" is
+  2 · a better way   what "stacking" is
   3 · why it helps   focused reviews · unblocking development
   4 · gh-stack       command overview
   5 · live demo      stacking changes on each other
@@ -141,7 +141,7 @@ Bad tooling is forcing this choice.
 
 ---
 
-# 2 · The mental model
+# 2 · A better way
 ## What if you didn't have to choose?
 
 ```
@@ -154,7 +154,7 @@ The PR stops being the unit of work. The **layer** is.
 
 ---
 
-# 2 · The mental model
+# 2 · A better way
 ## What a stack is
 
 One big branch → a chain of small branches, each based on the one below:
@@ -175,7 +175,7 @@ Each PR is small. Each targets the one below. Together they're the feature.
 
 ---
 
-# 2 · The mental model
+# 2 · A better way
 ## The same feature, stacked
 
 | # | Layer | Targets | Size |
