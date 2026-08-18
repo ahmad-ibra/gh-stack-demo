@@ -180,9 +180,12 @@ in a lower one.
 ---
 
 # 2 · A better way
-## What gh-stack gives us
+## Meet gh stack
 
-- CLI to build & manage stacks: create layers, reorder, navigate
+`gh stack` is a subcommand of the GitHub CLI (added by the `gh-stack`
+extension) that builds and manages stacks for you:
+
+- Create & manage stacks: add layers, reorder, navigate
 - Rebasing & syncing handled: change a lower layer, it restacks the rest
 - A stack map in the GitHub UI: every PR linked to the others
 - Cascading merges: land the whole stack, or just the bottom part
