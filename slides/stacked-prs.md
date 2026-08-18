@@ -315,14 +315,18 @@ Atomic: the chosen PR and everything below land together.
 ---
 
 # 6 · Reality
-## It's public preview, tell them
+## Rough edges, and feedback
 
-We're early adopters. Our feedback shapes the tool.
+Public preview, actively evolving. Some known gaps that have affected us already:
+
+- **Merge queues**: stacked PRs work, but you can't merge the whole stack at once (#268, #444)
+- **Bypass rules**: admins can't "bypass rules and merge" a stack like a normal PR (#315)
+  - workaround: `gs unstack`, then merge the PRs normally
+
+We're early adopters, so report what you hit:
 
 - `gs feedback`  →  `gh.io/stacks-feedback`
-- Bugs / requests: **github/gh-stack** issues
-- Docs: `gh.io/stacks`
-- Internal: **#eng-gh-stack** to flag problems & get help
+- Issues & docs: **github/gh-stack** · `gh.io/stacks`
 
 ---
 
