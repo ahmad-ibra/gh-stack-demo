@@ -248,7 +248,7 @@ gs view       # see the stack, and switch between its branches
     ui         ●                  ui         ●  rebased
     controller ●                  controller ●  rebased
     webhook    ●         ─▶       webhook    ●  rebased
-    api        ● ▸ main           api    ✔ merged
+    api        ●                  api    ✔ merged
     main       ┴                  main       ┴
 ```
 
@@ -256,8 +256,9 @@ Merge the whole stack, or just part of it, from the PR's merge button (or `gs me
 Atomic: the chosen PR and everything below land together.
 
 - On GitHub, the PRs above **auto-rebase** onto the new base
-- Locally, `gs sync` pulls the cascade down (and rebases your stack whenever
-  you change a lower layer, too)
+- Locally, `gs sync` pulls the cascade down to your branches
+
+`gs sync` also rebases your stack whenever you change a lower layer.
 
 ---
 
