@@ -308,7 +308,6 @@ Atomic: the chosen PR and everything below land together.
   1 mega-PR       ▶  CI runs ×1
   4-layer stack   ▶  CI runs ×4      (one per layer)
   + a merge/restack  ▶  re-runs down the chain
-  now multiply across every AI-authored PR, too ...
 ```
 
 - **Mitigate**: skip redundant intermediate runs, path filters, concurrency-cancel, a merge queue, right-sized runners
