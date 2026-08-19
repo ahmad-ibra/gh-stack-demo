@@ -27,6 +27,7 @@ var _ webhook.CustomValidator = &BackupScheduleValidator{}
 // SetupWebhookWithManager registers the validating webhook with the manager,
 // but only when the cluster-backup feature is enabled in this build.
 // adding a comment
+// add another
 func SetupWebhookWithManager(mgr ctrl.Manager) error {
 	if !features.Enabled(features.FeatureClusterBackup) {
 		return nil
